@@ -1,0 +1,12 @@
+# ignore venv
+venv/
+# ignore Python bytecode files
+*.pyc
+# ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+# ignore logs
+logs/
+# __pycache__ directories
+__pycache__/
+# ignore.json
+*.json
