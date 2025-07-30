@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Book Directory with Sidebar</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background: #f8f9fa;
+    color: #212529;
+    display: flex;
+    min-height: 100vh;
+  }
+  .sidebar {
+    width: 240px;
+    background: #343a40;
+    color: #fff;
+    padding: 2rem 1.5rem;
+  }
+  .sidebar h2 {
+    margin-top: 0;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #495057;
+    padding-bottom: 0.5rem;
+  }
+  .sidebar label {
+    display: block;
+    margin: 0.6rem 0;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .main-content {
+    flex-grow: 1;
+    padding: 2rem 3rem;
+  }
+  .book-list {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .book-item {
+    display: flex;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 1.8rem;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    overflow: hidden;
+  }
+  .book-item img {
+    width: 130px;
+    object-fit: cover;
+  }
+  .details {
+    padding: 1rem 1.5rem;
+  }
+  .title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: #212529;
+  }
+  .author {
+    font-style: italic;
+    margin-bottom: 0.5rem;
+    color: #495057;
+  }
+  .info {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: #6c757d;
+  }
+  a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>Filters</h2>
+  <label><input type="checkbox" disabled /> Business & Economics</label>
+  <label><input type="checkbox" disabled /> Business</label>
+  <label><input type="checkbox" disabled /> 2010</label>
+  <label><input type="checkbox" disabled /> 1911</label>
+</div>
+
+<div class="main-content">
+  <h1>Book Directory</h1>
+  <div class="book-list">
+    {% for title, books in grouped_info.items() %}
+      {% for book in books %}
+        <div class="book-item">
+          <img src="http://books.google.com/books/content?id={{ book.preview_link.split('id=')[1].split('&')[0] }}&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api" alt="{{ title }}">
+          <div class="details">
+            <div class="title">{{ title }}</div>
+            <div class="author">{{ book.author | join(', ') }}</div>
+            <div class="info">
+              Publisher: {{ book.publisher }} |
+              Published: {{ book.publishedDate }} |
+              Language: {{ book.language }}{% if book.average_rating %} |
+              Rating: {{ book.average_rating }}{% endif %}
+            </div>
+            <p>{{ book.description or "No description available." }}</p>
+            <a href="{{ book.preview_link }}" target="_blank">Preview</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+</body>
+</html>

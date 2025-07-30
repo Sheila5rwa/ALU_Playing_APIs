@@ -10,8 +10,8 @@ api_key = os.getenv("GOOGLE_BOOK_API")
 
 def get_books(domain):
     """Fetches book information from Google Books API based on the given domain."""
-    
-    api_url = f"https://www.googleapis.com/books/v1/volumes?q=subject:{domain}&key={api_key}"
+    max_number_of_books = 30
+    api_url = f"https://www.googleapis.com/books/v1/volumes?q=subject:{domain}&maxResults={max_number_of_books}&key={api_key}"
     response = requests.get(url=api_url, timeout=10)
 
     if response.status_code != 200:
@@ -27,7 +27,7 @@ def get_books(domain):
     language = [item["volumeInfo"].get("language", "Unknown") for item in data]
     preview_link = [item["volumeInfo"].get("previewLink", "#") for item in data]
 
-    return data, title, author_names, publisher, description, publishedDate, average_rating, language, preview_link
+    return title, author_names, publisher, description, publishedDate, average_rating, language, preview_link
 
 if __name__ == "__main__":
     get_books()
