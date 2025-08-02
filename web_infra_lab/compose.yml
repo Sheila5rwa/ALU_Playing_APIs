@@ -1,0 +1,40 @@
+networks:
+  lablan:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+services:
+  web-01:
+    image: sheilla17/bookreader:v1.1
+    container_name: web-01
+    hostname: web-01
+    networks:
+      lablan:
+        ipv4_address: 172.20.0.11
+    ports:
+      - "2211:22"
+      - "8080:8080"
+
+  web-02:
+    image: sheilla17/bookreader:v1.1
+    container_name: web-02
+    hostname: web-02
+    networks:
+      lablan:
+        ipv4_address: 172.20.0.12
+    ports:
+      - "2212:22"
+      - "8081:8080"
+
+  lb-01:
+    build: ./lb
+    container_name: lb-01
+    hostname: lb-01
+    networks:
+      lablan:
+        ipv4_address: 172.20.0.10
+    ports:
+      - "2210:22"
+      - "8082:8080"
